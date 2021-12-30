@@ -32,8 +32,8 @@ us_gan_file_path = "{}/gan.h5".format(US_MODELS_CHECKPOINT_PATH)
 us_gan_train_history_file_path = "{}/gan_training_history.npy".format(US_MODELS_CHECKPOINT_PATH)
 us_gan_training_checkpoint_file_path = "{}/gan_ckpts".format(US_MODELS_CHECKPOINT_PATH)
 
-BATCH_SIZE = 128 # from Lin et.al (2021)
-# BATCH_SIZE = 1024 # increase the batch size to minimize the training time
+# BATCH_SIZE = 128 # from Lin et.al (2021), but it has a very high loss on evaluation
+BATCH_SIZE = 1024 # increase the batch size to cover more stocks data, better prediction performance
 TRAIN_EPOCHS = 100
 # TRAIN_EPOCHS = 25 # decrease the epochs to minimise the training time
 time_lag = 30 # days (aka time steps/step size)
