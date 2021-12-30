@@ -1,6 +1,7 @@
 # project ignores
 data/processed/
 model_hyperparam_search/
+model/*/gan_ckpts/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
