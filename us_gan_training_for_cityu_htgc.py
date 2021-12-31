@@ -34,10 +34,11 @@ us_gan_training_checkpoint_file_path = "{}/gan_ckpts".format(US_MODELS_CHECKPOIN
 
 # BATCH_SIZE = 128 # from Lin et.al (2021), but it has a very high loss on evaluation
 BATCH_SIZE = 1024 # increase the batch size to cover more stocks data, better prediction performance
-TRAIN_EPOCHS = 100
-# TRAIN_EPOCHS = 25 # decrease the epochs to minimise the training time
+# TRAIN_EPOCHS = 100
+TRAIN_EPOCHS = 30
 time_lag = 30 # days (aka time steps/step size)
 CLOSE_PRICE_COLUMN_INDEX = 3 # from Data Processing.ipynb
+
 
 def create_dir_if_not_exist(dirname):
     if not os.path.exists(dirname):
