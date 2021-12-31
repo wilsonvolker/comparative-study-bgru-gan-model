@@ -3,7 +3,7 @@
 1. Do we need to include feature importance? Seems not
 2. PCA might not be working when training GAN model. Consider make one more version of dataset that does not apply the PCA.
 3. GAN: Epoch 100 & Batch size 1024 -> Seriously overfitted
-4. GAN: Epoch 25 & Batch size 1024 -> Little bit underfit
+4. GAN: Epoch 25 & Batch size 1024 -> Little bit underfit <<-- second choice
 5. GAN: Epoch 25 Batch size 128 -> Completely underfit
 6. GAN: Epoch 16 Batch size 128 -> overfitted
 7. GAN: Epoch 50 & Batch size 1024 -> overfitted
