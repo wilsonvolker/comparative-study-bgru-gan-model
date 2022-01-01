@@ -35,7 +35,7 @@ us_gan_training_checkpoint_file_path = "{}/gan_ckpts".format(US_MODELS_CHECKPOIN
 # BATCH_SIZE = 128 # from Lin et.al (2021), but it has a very high loss on evaluation
 BATCH_SIZE = 1024 # increase the batch size to cover more stocks data, better prediction performance
 # TRAIN_EPOCHS = 100
-TRAIN_EPOCHS = 30
+TRAIN_EPOCHS = 28
 time_lag = 30 # days (aka time steps/step size)
 CLOSE_PRICE_COLUMN_INDEX = 3 # from Data Processing.ipynb
 
@@ -124,17 +124,40 @@ def make_generator(input_dim, feature_cnt) -> tf.keras.models.Model:
     # print(model.summary())
     # return model
 
+    # Generator structure obtained from: Lin, H., Chen, C., Huang, G., & Jafari, A. (2021). Stock price prediction using Generative Adversarial Networks. Journal of Computer Science, (17(3), 188–196. doi:10.3844/jcssp.2021.188.196
     model = Sequential()
-    model.add(LSTM(units=1024, return_sequences = True, input_shape=(input_dim, feature_cnt),
-                  recurrent_dropout=0.2))
-    model.add(LSTM(units=512, return_sequences = True, recurrent_dropout=0.2)) # 256, return_sequences = True
-    model.add(LSTM(units=256, recurrent_dropout=0.2)) #, recurrent_dropout=0.1
-    # , recurrent_dropout = 0.2
+
+    model.add(
+        LSTM(units=1024,
+             input_shape=(input_dim, feature_cnt),
+             recurrent_dropout=0.2,
+             return_sequences=True,
+         )
+    )
+
+    model.add(
+        LSTM(
+            units=512,
+            recurrent_dropout=0.2,
+            return_sequences=True,
+        )
+    )
+
+    model.add(
+        LSTM(
+            units=256,
+            recurrent_dropout=0.2
+        )
+    )
+
     model.add(Dense(128))
-    # model.add(Dense(128))
+
     model.add(Dense(64))
-    #model.add(Dense(16))
+
     model.add(Dense(units=1))
+
+    print(model.summary())
+
     return model
 
 
