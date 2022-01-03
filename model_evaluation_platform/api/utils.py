@@ -2,6 +2,7 @@
 import base64
 import io
 from typing import Tuple
+import joblib
 
 import numpy as np
 import pandas as pd
@@ -9,6 +10,7 @@ import yfinance as yf
 import os
 from datetime import datetime
 import matplotlib
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
@@ -32,8 +34,7 @@ from sklearn.decomposition import PCA
 from tensorflow.keras.models import load_model
 from sklearn.metrics import mean_absolute_percentage_error, mean_squared_error, mean_absolute_error
 
-
-#%%
+# %%
 # Common variables
 EVALUATION_DIAGRAM_PATH = "../../diagrams/model/evaluation"
 
@@ -61,7 +62,13 @@ evaluation_fields_name = [
     "mean_absolute_percentage_error"
 ]
 
-#%%
+evaluation_stocks_path = "../../data/processed/stocks_for_evaluate/"
+SCALER_PATH = "../../scaler"
+template_filename_test_x = "{}/{}_test_X.npy"
+template_filename_test_y = "{}/{}_test_y.npy"
+
+
+# %%
 # Functions
 
 def parse_string_to_datetime(x):
@@ -76,6 +83,7 @@ def create_dir_if_not_exist(dirname):
     if not os.path.exists(dirname):
         os.makedirs(dirname, exist_ok=True)
 
+
 def split_stock_names(stock_names: str) -> list[str]:
     """
     Split the stock names by comma
@@ -83,6 +91,7 @@ def split_stock_names(stock_names: str) -> list[str]:
     :return: list[str]
     """
     return stock_names.split(",")
+
 
 def reformat_model_names(model_name: str) -> str:
     """
@@ -100,6 +109,7 @@ def reformat_model_names(model_name: str) -> str:
     model_name = "{} ({})".format(model_name, found_words)
 
     return model_name
+
 
 def fetch_data(stock_symbol: str, start_date: datetime, end_date: datetime) -> Tuple[pd.DataFrame, str]:
     """
@@ -127,7 +137,6 @@ def preprocess_data(stock_data: pd.DataFrame):
     tmp_close_price = raw_data["Close"]
     coeff = wavelet_denoise(tmp_close_price)
     raw_data["Close"] = np.sum(coeff, axis=0)
-
 
     # Feature extraction
     # ACD
@@ -172,7 +181,6 @@ def preprocess_data(stock_data: pd.DataFrame):
     raw_data["UB"] = bb_instance.bollinger_hband()
     raw_data["LB"] = bb_instance.bollinger_lband()
 
-
     # Feature Normalization
     # split as x and y values
     d_norm_X = copy.deepcopy(raw_data)
@@ -203,7 +211,6 @@ def preprocess_data(stock_data: pd.DataFrame):
     tmp_pcaed = pca_instance.fit_transform(d_norm_X[:, 7:])
     pca_X = np.c_[copy.deepcopy(d_norm_X[:, :7]), tmp_pcaed]
 
-
     # Data Organization
     time_lag = 30  # days
     to_organize_x = copy.deepcopy(pca_X)
@@ -229,6 +236,7 @@ def preprocess_data(stock_data: pd.DataFrame):
 
     return X_value, y_value, y_scaler
 
+
 def wavelet_denoise(index_list, wavefunc='haar', lv=2, m=1, n=2, plot=False):
     '''
     *** Reference **
@@ -249,13 +257,13 @@ def wavelet_denoise(index_list, wavefunc='haar', lv=2, m=1, n=2, plot=False):
 
     # Decomposing
     coeff = pywt.wavedec(index_list, wavefunc, mode='sym',
-                         level=lv)  #  Decomposing by levels，cD is the details coefficient
+                         level=lv)  # Decomposing by levels，cD is the details coefficient
     sgn = lambda x: 1 if x > 0 else -1 if x < 0 else 0  # sgn function
 
     # Denoising
     # Soft Threshold Processing Method
     for i in range(m,
-                   n + 1):  #  Select m~n Levels of the wavelet coefficients，and no need to dispose the cA coefficients(approximation coefficients)
+                   n + 1):  # Select m~n Levels of the wavelet coefficients，and no need to dispose the cA coefficients(approximation coefficients)
         cD = coeff[i]
         Tr = np.sqrt(2 * np.log2(len(cD)))  # Compute Threshold
         for j in range(len(cD)):
@@ -285,6 +293,7 @@ def wavelet_denoise(index_list, wavefunc='haar', lv=2, m=1, n=2, plot=False):
         print(data)
 
     return coeff
+
 
 def evaluate_model(stock_symbol: str, stock_short_name: str, X_value: np.array, y_value: np.array, y_scaler) -> list:
     """
@@ -384,7 +393,7 @@ def evaluate_model(stock_symbol: str, stock_short_name: str, X_value: np.array, 
                 tmp_mae,
                 tmp_rmse,
                 tmp_mape,
-                tmp_base64_img_str,
+                # tmp_base64_img_str,
             ])
 
         elif "BGRU" in model_names[i].upper():
@@ -395,19 +404,24 @@ def evaluate_model(stock_symbol: str, stock_short_name: str, X_value: np.array, 
                 y_pred=y_predicted,
             )
             df_eva_metrics_list.append(
-                ["{}".format(reformat_model_names(model_names[i])), stock_symbol] + tmp_eva_result + [tmp_base64_img_str])
+                ["{}".format(reformat_model_names(model_names[i])), stock_symbol]
+                + tmp_eva_result
+                # + [tmp_base64_img_str]
+            )
 
     df_eva_metrics = pd.DataFrame(
-        columns=["model", "stock"] + evaluation_fields_name + ["plot"],
+        columns=["model", "stock"]
+                + evaluation_fields_name ,
+                # + ["plot"],
         data=df_eva_metrics_list
     )
 
     return df_eva_metrics.to_dict("records")
 
+
 # plot diagrams function
 def plot_predicted_price(predicted_y, actual_y, title, predicted_y_legend_label, actual_y_legend_label,
-                                   price_currency) -> str:
-
+                         price_currency) -> str:
     plt.figure(figsize=(14, 5), dpi=500, facecolor="white")
     plt.plot(actual_y, label=actual_y_legend_label)
     plt.plot(predicted_y, label=predicted_y_legend_label)
@@ -431,3 +445,39 @@ def plot_predicted_price(predicted_y, actual_y, title, predicted_y_legend_label,
 
     return base64_png_str.decode('utf-8')
 
+
+# function for parallel processing
+def do_evaluate(stock: str, start_date: datetime, end_date: datetime, default_evaluation_stocks):
+    X_value = None
+    y_value = None
+    y_scaler = None
+    tmp_stock_short_name = None
+
+    if stock in default_evaluation_stocks:
+        X_value = np.load(
+            template_filename_test_x.format(
+                evaluation_stocks_path,
+                stock
+            )
+        )
+        y_value = np.load(
+            template_filename_test_y.format(
+                evaluation_stocks_path,
+                stock
+            )
+        )
+        y_scaler = joblib.load(SCALER_PATH + "/" + "{}.y_scaler.joblib".format(stock))
+
+    else:
+        # no existing dataset found, proceed to fetch data and data preprocessing
+        tmp_stock, tmp_stock_short_name = fetch_data(stock, start_date, end_date)
+        X_value, y_value, y_scaler = preprocess_data(tmp_stock)
+
+    tmp_evaluate_result = evaluate_model(stock, tmp_stock_short_name, X_value, y_value, y_scaler)
+
+    return tmp_evaluate_result
+
+    # if not evaluation_result:  # if evaluation_result is empty list
+    #     evaluation_result = tmp_evaluate_result
+    # else:
+    #     evaluation_result = evaluation_result + tmp_evaluate_result
