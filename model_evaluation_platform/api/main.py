@@ -5,6 +5,9 @@ from datetime import datetime
 import numpy as np
 import joblib
 
+# for debugging purpose
+import uvicorn
+
 app = FastAPI()
 
 evaluation_stocks_path = "../../data/processed/stocks_for_evaluate/"
@@ -36,6 +39,7 @@ def evaluate(stocks: str = "1038.HK,1299.HK,2888.HK,AAPL,MSFT,TEAM",
         X_value = None
         y_value = None
         y_scaler = None
+        tmp_stock_short_name = None
 
         if stock in default_evaluation_stocks:
             X_value= np.load(
@@ -54,11 +58,11 @@ def evaluate(stocks: str = "1038.HK,1299.HK,2888.HK,AAPL,MSFT,TEAM",
 
         else:
             # no existing dataset found, proceed to fetch data and data preprocessing
-            tmp_stock = fetch_data(stock, start_date, end_date)
+            tmp_stock, tmp_stock_short_name = fetch_data(stock, start_date, end_date)
             X_value, y_value, y_scaler = preprocess_data(tmp_stock)
 
 
-        tmp_evaluate_result = evaluate_model(stock, X_value, y_value, y_scaler)
+        tmp_evaluate_result = evaluate_model(stock, tmp_stock_short_name, X_value, y_value, y_scaler)
 
         if not evaluation_result: # if evaluation_result is empty list
             evaluation_result = tmp_evaluate_result
@@ -67,3 +71,6 @@ def evaluate(stocks: str = "1038.HK,1299.HK,2888.HK,AAPL,MSFT,TEAM",
 
     return evaluation_result
 
+# for debugging purpose
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -1,6 +1,7 @@
 # common packages
 import base64
 import io
+from typing import Tuple
 
 import numpy as np
 import pandas as pd
@@ -100,7 +101,7 @@ def reformat_model_names(model_name: str) -> str:
 
     return model_name
 
-def fetch_data(stock_symbol: str, start_date: datetime, end_date: datetime) -> pd.DataFrame:
+def fetch_data(stock_symbol: str, start_date: datetime, end_date: datetime) -> Tuple[pd.DataFrame, str]:
     """
     Fetch the stock data from yahoo finance api
     """
@@ -108,7 +109,9 @@ def fetch_data(stock_symbol: str, start_date: datetime, end_date: datetime) -> p
     stock = yf.Ticker(stock_symbol)
     hist = stock.history(start=start_date, end=end_date)
 
-    return hist
+    short_name = stock.info['shortName']
+
+    return hist, short_name
 
 
 def preprocess_data(stock_data: pd.DataFrame):
@@ -283,7 +286,7 @@ def wavelet_denoise(index_list, wavefunc='haar', lv=2, m=1, n=2, plot=False):
 
     return coeff
 
-def evaluate_model(stock_symbol: str, X_value: np.array, y_value: np.array, y_scaler) -> list:
+def evaluate_model(stock_symbol: str, stock_short_name: str, X_value: np.array, y_value: np.array, y_scaler) -> list:
     """
     Evaluate the model with the data provided
     :param stock_symbol: the symbol of the stock, e.g. AAPL
@@ -329,11 +332,23 @@ def evaluate_model(stock_symbol: str, X_value: np.array, y_value: np.array, y_sc
             tmp_predict_result
         )
 
+        # try:
+        #     tmp_stock_short_name = stock_names[stock_names["Symbol"] == stock_symbol]["Name"].item()
+        # except ValueError:
+        #     tmp_stock_yf = yf.Ticker(stock_symbol)
+        #     # print(tmp_stock_yf.info)
+        #     tmp_stock_short_name = tmp_stock_yf.info['shortName']
+
+        if stock_short_name is None:
+            stock_short_name = stock_names[stock_names["Symbol"] == stock_symbol]["Name"].item()
+
         tmp_base64_img_str = plot_predicted_price(
             predicted_y=y_predicted,
             actual_y=y_true,
             title="{} ({}) Stock Price Prediction with {}".format(
-                stock_names[stock_names["Symbol"] == stock_symbol]["Name"].item(),
+                # stock_names[stock_names["Symbol"] == stock_symbol]["Name"].item(),
+                # tmp_stock_short_name,
+                stock_short_name,
                 stock_symbol,
                 model_names[i]
             ),
@@ -410,6 +425,9 @@ def plot_predicted_price(predicted_y, actual_y, title, predicted_y_legend_label,
     plt.savefig(plt_IO_bytes, format='png')
     plt_IO_bytes.seek(0)
     base64_png_str = base64.b64encode(plt_IO_bytes.read())
+
+    # garbage collection
+    plt.close()
 
     return base64_png_str.decode('utf-8')
 
