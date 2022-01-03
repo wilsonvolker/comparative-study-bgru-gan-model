@@ -9,7 +9,7 @@ conda install --file requirements.txt
 ```
 
 ### To export newly added package to requirement.txt
-pip3 freeze > requirements.txt
+`pip3 freeze > requirements.txt`
 
 ### Other information
 1. The files that contain "htgc" keywords, or with ".sh" extension, is to submit training jobs to CityU's High Throughput GPU Cluster 
