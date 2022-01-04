@@ -1,7 +1,8 @@
+import logging
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, status
 from utils import *
-from datetime import datetime
+from datetime import datetime, date
 # import numpy as np
 # import joblib
 import multiprocessing as mp
@@ -30,17 +31,27 @@ def api_root():
     description="Evaluate the BGRU and GAN model with stocks provided, stock list should be separated by comma (\",\"), " +
                 "e.g.  1038.HK,1299.HK,2888.HK,AAPL,MSFT,TEAM. Also, the date should be YYYY-mm-dd ",
          )
-def evaluate(stocks: str = "1038.HK,1299.HK,2888.HK,AAPL,MSFT,TEAM",
-             start_date: Optional[datetime] = datetime(2019, 10, 1),
-             end_date: Optional[datetime] = datetime(2021, 10, 1)
-             ):
+def evaluate(
+        response: Response,
+        stocks: str = "1038.HK,1299.HK,2888.HK,AAPL,MSFT,TEAM",
+        start_date: Optional[date] = datetime(2019, 10, 1),
+        end_date: Optional[date] = datetime(2021, 10, 1)
+    ):
     start_calc_time = time.time()
     stock_names = split_stock_names(stocks)
     # evaluation_result = []
 
     # do the calculation in with multiprocessing
     with mp.Pool(mp.cpu_count()) as pp:
-        evaluation_result = pp.starmap(do_evaluate, [(stock, start_date, end_date, default_evaluation_stocks) for stock in stock_names])
+        try:
+            evaluation_result = pp.starmap(do_evaluate, [(stock, start_date, end_date, default_evaluation_stocks) for stock in stock_names])
+        except ValueError as e:
+            pp.terminate()
+            logging.error(str(e))
+            response.status_code = status.HTTP_400_BAD_REQUEST
+            return {
+                "error": str(e)
+            }
 
     # check whether the stock data exists or not, if it is default evaluation stock, it should exists
     # for stock in stock_names:

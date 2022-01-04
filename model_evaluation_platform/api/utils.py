@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 import os
-from datetime import datetime
+from datetime import datetime, date
 import matplotlib
 
 matplotlib.use('Agg')
@@ -110,16 +110,18 @@ def reformat_model_names(model_name: str) -> str:
 
     return model_name
 
-
 def fetch_data(stock_symbol: str, start_date: datetime, end_date: datetime) -> Tuple[pd.DataFrame, str]:
     """
     Fetch the stock data from yahoo finance api
     """
 
-    stock = yf.Ticker(stock_symbol)
-    hist = stock.history(start=start_date, end=end_date)
+    try:
+        stock = yf.Ticker(stock_symbol)
+        hist = stock.history(start=start_date, end=end_date)
 
-    short_name = stock.info['shortName']
+        short_name = stock.info['shortName']
+    except KeyError:
+        raise ValueError("Stock `{}` not found, possibly wrong input or the stock is delisted.".format(stock_symbol))
 
     return hist, short_name
 
@@ -453,7 +455,12 @@ def do_evaluate(stock: str, start_date: datetime, end_date: datetime, default_ev
     y_scaler = None
     tmp_stock_short_name = None
 
-    if stock in default_evaluation_stocks:
+    default_evaluation_stocks_start_day = date(2019, 10, 1)
+    default_evaluation_stocks_end_day = date(2021, 10, 1)
+
+    if stock in default_evaluation_stocks and \
+            default_evaluation_stocks_start_day == start_date \
+            and end_date == default_evaluation_stocks_end_day:
         X_value = np.load(
             template_filename_test_x.format(
                 evaluation_stocks_path,
