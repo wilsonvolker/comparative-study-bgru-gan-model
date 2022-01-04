@@ -6,12 +6,17 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, install the packages
+Install the packages
 ```bash
 yarn install
 ```
 
-Second, run the development server:
+Copy the env files from example, update the env values if needed
+```bash
+cp .env.example .env
+```
+
+Run the development server:
 
 ```bash
 yarn dev

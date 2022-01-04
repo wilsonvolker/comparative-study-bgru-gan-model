@@ -4,6 +4,7 @@ model_hyperparam_search/
 model/*/gan_ckpts/
 **/node_modules
 **/.next
+**/public/demo_evaluation_data.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
