@@ -1,0 +1,10 @@
+body{
+    background-color: #f9f9f8
+}
+
+.hover-box { /* ref: https://codepen.io/ovdojoey/pen/BomKyZ */
+    transition: box-shadow .3s;
+}
+.hover-box:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2);
+}

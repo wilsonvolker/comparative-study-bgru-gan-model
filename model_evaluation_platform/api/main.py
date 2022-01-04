@@ -1,6 +1,7 @@
 import logging
 from typing import Optional
 from fastapi import FastAPI, Response, status
+from fastapi.middleware.cors import CORSMiddleware
 from utils import *
 from datetime import datetime, date
 # import numpy as np
@@ -14,6 +15,21 @@ import uvicorn
 
 app = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    # allow_methods=["*"],
+    allow_methods=["GET"],
+    allow_headers=["*"],
+)
+
 # evaluation_stocks_path = "../../data/processed/stocks_for_evaluate/"
 # SCALER_PATH = "../../scaler"
 # template_filename_test_x = "{}/{}_test_X.npy"
@@ -24,6 +40,12 @@ default_evaluation_stocks = split_stock_names("1038.HK,1299.HK,2888.HK,AAPL,MSFT
 @app.get("/")
 def api_root():
     return "Hello world! The Model Evaluation Platform API is operating normally."
+
+@app.get("/default_stocks")
+def default_stocks():
+    return {
+        "default_stocks": default_evaluation_stocks
+    }
 
 @app.get(
     "/evaluate/",

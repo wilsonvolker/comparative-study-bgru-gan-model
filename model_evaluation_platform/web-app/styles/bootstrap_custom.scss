@@ -1,0 +1,39 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/utilities";
+
+// add cursor property, cursor-pointer, cursor-auto, cursor-grab
+$utilities: map-merge(
+                $utilities,
+                (
+                        "cursor": (
+                                property: cursor,
+                                class: cursor,
+                                responsive: true,
+                                values: auto pointer grab,
+                        )
+                )
+);
+
+// add max-width with breakpoints and additional mw-50, to use: mw-<breakpoint>-<50|100>
+$utilities: map-merge(
+                $utilities,
+                (
+                        "max-width": map-merge(
+                                        map-get($utilities, "max-width"),
+                                        (
+                                                values: map-merge(
+                                                                map-get(
+                                                                                map-get($utilities, "max-width"),
+                                                                                "values"
+                                                                ),
+                                                                (50: 50%)
+                                                ),
+                                                responsive: true,
+                                        ),
+                        ),
+                )
+);
+
+// CAUTION: REMOVE THIS LINE WILL MAKE THE SASS NOT USABLE
+@import "~bootstrap";

@@ -2,6 +2,8 @@
 data/processed/
 model_hyperparam_search/
 model/*/gan_ckpts/
+**/node_modules
+**/.next
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -129,3 +131,4 @@ dmypy.json
 .pyre/
 
 .idea
+**/.idea

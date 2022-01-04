@@ -395,7 +395,7 @@ def evaluate_model(stock_symbol: str, stock_short_name: str, X_value: np.array, 
                 tmp_mae,
                 tmp_rmse,
                 tmp_mape,
-                # tmp_base64_img_str,
+                tmp_base64_img_str,
             ])
 
         elif "BGRU" in model_names[i].upper():
@@ -408,13 +408,13 @@ def evaluate_model(stock_symbol: str, stock_short_name: str, X_value: np.array, 
             df_eva_metrics_list.append(
                 ["{}".format(reformat_model_names(model_names[i])), stock_symbol]
                 + tmp_eva_result
-                # + [tmp_base64_img_str]
+                + [tmp_base64_img_str]
             )
 
     df_eva_metrics = pd.DataFrame(
         columns=["model", "stock"]
-                + evaluation_fields_name ,
-                # + ["plot"],
+                + evaluation_fields_name
+                + ["plot"],
         data=df_eva_metrics_list
     )
 
