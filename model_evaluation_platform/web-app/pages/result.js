@@ -2,6 +2,7 @@ import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import {Card, Container} from "react-bootstrap";
 import Link from "next/link"
+import ResultContent from "../components/ResultConent";
 
 const _ = require('lodash')
 
@@ -11,6 +12,7 @@ export default function result() {
 
     const [apiQuery, setApiQuery] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [resultData, setResultData] = useState();
 
     // listen if the router is ready
     useEffect(() => {
@@ -21,6 +23,10 @@ export default function result() {
     useEffect(() => {
         if (typeof apiQuery !== "undefined" && !_.isEmpty(apiQuery)){
             // TODO: fetch evaluation result from backend
+
+            // load dummy json for dev, TODO: Remove it when finished
+            setResultData(require("../public/demo_evaluation_data.json"))
+
             console.log(apiQuery)
         }
     }, [apiQuery])
@@ -37,10 +43,13 @@ export default function result() {
                         </Card.Title>
                         <Card.Subtitle className={"text-muted"}>A Comparative Study of BGRU and GAN for Stock Market
                             Forecasting in dual regions</Card.Subtitle>
-
+                        <hr className={"mt-4"}/>
                         <div className={"mt-4"}>
-                            RESULT HERE
                             {/*TODO: Display evaluation result with plots*/}
+                            <ResultContent
+                                stock_to_display={"AAPL"}
+                                evaluation_result={resultData}
+                            />
 
                             {/*TODO: Display error message if backend throws it, hide the evaluation result part */}
                         </div>

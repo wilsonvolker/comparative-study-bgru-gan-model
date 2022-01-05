@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
-
+import {Col, Row} from "react-bootstrap";
+const _ = require('lodash')
 
 export default function ResultContent(props) {
     /**
@@ -21,21 +22,33 @@ export default function ResultContent(props) {
         evaluation_result // array of objects
     } = props
 
-    const [filteredData, setFilteredData] = useState();
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
-        const tmp_filteredData = evaluation_result.filter((x) => {
-            return x["stock"].toUpperCase() === stock_to_display.toUpperCase()
-        })
+        if (!_.isEmpty(evaluation_result)) {
+            const tmp_filteredData = evaluation_result.filter((x) => {
+                return x["stock"].toUpperCase() === stock_to_display.toUpperCase()
+            })
 
-        setFilteredData(tmp_filteredData)
-    }, [])
+            setFilteredData(tmp_filteredData)
+            console.log(tmp_filteredData)
+        }
+    }, [evaluation_result])
 
     return (
         <>
-            <h4>
+            <h3>
                 {stock_to_display}
-            </h4>
+            </h3>
+            <Row>
+                {filteredData.map(x => (
+                    <Col lg={6}>
+                        <img className={"img-fluid"} src={`data:image/png;base64, ${x['plot']}`} alt={`${x['stock']} - ${x['model']} stock price prediction result`}/>
+                    </Col>
+                ))}
+            </Row>
+
+            {/*TODO: Make a table to show the metrics of that stocks*/}
         </>
     )
 }
