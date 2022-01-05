@@ -8,3 +8,11 @@ body{
 .hover-box:hover {
     box-shadow: 0 0 11px rgba(33,33,33,.2);
 }
+
+.hover-underline {
+    text-decoration: none;
+}
+
+.hover-underline:hover {
+    text-decoration: underline;
+}

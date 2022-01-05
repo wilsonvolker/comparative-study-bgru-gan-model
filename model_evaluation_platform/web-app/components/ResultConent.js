@@ -1,5 +1,7 @@
-import {useEffect, useState} from "react";
-import {Col, Row} from "react-bootstrap";
+import {useEffect, useMemo, useState} from "react";
+import {Col, Row, Table} from "react-bootstrap";
+import { useTable, useSortBy } from 'react-table';
+import MetricTable from "./MetricTable";
 const _ = require('lodash')
 
 export default function ResultContent(props) {
@@ -35,20 +37,30 @@ export default function ResultContent(props) {
         }
     }, [evaluation_result])
 
+    const metricData = useMemo(() => filteredData, [filteredData])
+
     return (
-        <>
+        <div className={"mt-4"}>
             <h3>
                 {stock_to_display}
             </h3>
             <Row>
                 {filteredData.map(x => (
-                    <Col lg={6}>
+                    <Col lg={6} key={`${x['stock']} - ${x['model']}`}>
                         <img className={"img-fluid"} src={`data:image/png;base64, ${x['plot']}`} alt={`${x['stock']} - ${x['model']} stock price prediction result`}/>
                     </Col>
                 ))}
             </Row>
 
             {/*TODO: Make a table to show the metrics of that stocks*/}
-        </>
+            <Row className={"mt-4"}>
+                <MetricTable
+                    data={metricData}
+                />
+            </Row>
+            <Row>
+
+            </Row>
+        </div>
     )
 }
