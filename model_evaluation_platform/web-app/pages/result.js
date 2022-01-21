@@ -43,7 +43,7 @@ export default function result() {
                 //
                 // }
                 const tmpResultData = res.data
-
+console.log(tmpResultData)
                 setResultData(tmpResultData)
                 setStockList([...new Set(
                     tmpResultData.map(x => x['stock'])
@@ -66,8 +66,8 @@ export default function result() {
             // setStockList([...new Set(
             //     tmpResultData.map(x => x['stock'])
             // )])
-
-
+            //
+            //
             // console.log(apiQuery)
         }
     }, [apiQuery])

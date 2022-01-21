@@ -20,19 +20,23 @@ export default function MetricTable(props) {
         },
         {
             Header: "Loss (MSE)",
-            accessor: "loss (mean_squared_error)"
+            accessor: "loss (mean_squared_error)",
+            sortType: "basic",
         },
         {
             Header: "MAE",
-            accessor: "mean_absolute_error"
+            accessor: "mean_absolute_error",
+            sortType: "basic",
         },
         {
             Header: "RMSE",
-            accessor: "root_mean_squared_error"
+            accessor: "root_mean_squared_error",
+            sortType: "basic",
         },
         {
             Header: "MAPE",
-            accessor: "mean_absolute_percentage_error"
+            accessor: "mean_absolute_percentage_error",
+            sortType: "basic",
         }
     ], [])
 
