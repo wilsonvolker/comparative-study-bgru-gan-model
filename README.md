@@ -5,7 +5,8 @@ Run the codes in sequences: 0. Stock filtering, 1. Data fetching, 2, 3, ... n
 ## - Model evaluation platform
 In addition to the model training, an evaluation platform (web-app based) is also developed. 
 
-[Front-end web-app (Next.js based)](https://github.com/wilsonvolker/comparative-study-bgru-gan-model/tree/main/model_evaluation_platform/web-app)<br/>
+[Front-end web-app (Next.js based)](https://github.com/wilsonvolker/comparative-study-bgru-gan-model/tree/main/model_evaluation_platform/web-app)
+<br/>
 [API (FastAPI based)](https://github.com/wilsonvolker/comparative-study-bgru-gan-model/tree/main/model_evaluation_platform/api)
 
 <hr/>
