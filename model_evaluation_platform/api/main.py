@@ -56,8 +56,10 @@ def default_stocks():
 def evaluate(
         response: Response,
         stocks: str = "1038.HK,1299.HK,2888.HK,AAPL,MSFT,TEAM",
-        start_date: Optional[date] = datetime(2019, 10, 1),
-        end_date: Optional[date] = datetime(2021, 10, 1)
+        # start_date: Optional[date] = datetime(2019, 10, 1),
+        start_date: Optional[date] = "2019-10-1",
+        end_date: Optional[date] = "2021-10-1"
+        # end_date: Optional[date] = datetime(2021, 10, 1)
     ):
     start_calc_time = time.time()
     stock_names = split_stock_names(stocks)
