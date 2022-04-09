@@ -1,6 +1,8 @@
 # common packages
+import logging
 import base64
 import io
+import sys
 from typing import Tuple
 import joblib
 
@@ -34,13 +36,18 @@ from sklearn.decomposition import PCA
 from tensorflow.keras.models import load_model
 from sklearn.metrics import mean_absolute_percentage_error, mean_squared_error, mean_absolute_error
 
+# env
+from config import settings
+
 # %%
 # Common variables
-EVALUATION_DIAGRAM_PATH = "../../diagrams/model/evaluation"
+# EVALUATION_DIAGRAM_PATH = "../../diagrams/model/evaluation"
 
 # stocks model checkpoint paths
-HK_MODELS_CHECKPOINT_PATH = "../../model/hk"
-US_MODELS_CHECKPOINT_PATH = "../../model/us"
+# HK_MODELS_CHECKPOINT_PATH = "../../model/hk"
+# US_MODELS_CHECKPOINT_PATH = "../../model/us"
+HK_MODELS_CHECKPOINT_PATH = settings.HK_MODELS_CHECKPOINT_PATH
+US_MODELS_CHECKPOINT_PATH = settings.US_MODELS_CHECKPOINT_PATH
 
 hk_bgru_file_path = "{}/bgru.h5".format(HK_MODELS_CHECKPOINT_PATH)
 hk_bgru_train_history_file_path = "{}/bgru_history/bgru_training_history.npy".format(HK_MODELS_CHECKPOINT_PATH)
@@ -62,8 +69,10 @@ evaluation_fields_name = [
     "mean_absolute_percentage_error"
 ]
 
-evaluation_stocks_path = "../../data/processed/stocks_for_evaluate/"
-SCALER_PATH = "../../scaler"
+# evaluation_stocks_path = "../../data/processed/stocks_for_evaluate/"
+# SCALER_PATH = "../../scaler"
+evaluation_stocks_path = settings.EVALUATION_STOCKS_PATH
+SCALER_PATH = settings.SCALER_PATH
 template_filename_test_x = "{}/{}_test_X.npy"
 template_filename_test_y = "{}/{}_test_y.npy"
 
@@ -116,11 +125,21 @@ def fetch_data(stock_symbol: str, start_date: datetime, end_date: datetime) -> T
     """
 
     try:
-        stock = yf.Ticker(stock_symbol)
-        hist = stock.history(start=start_date, end=end_date)
+        if is_stock_hk(stock_symbol):
+            tmp_stock_name_arr = stock_symbol.split(".")
+            tmp_stock_name_arr[0] = "{:04d}".format(int(tmp_stock_name_arr[0]))
+            stock_symbol = '.'.join(tmp_stock_name_arr)
 
-        short_name = stock.info['shortName']
-    except KeyError:
+        stock = yf.Ticker(stock_symbol)
+
+        short_name = stock.info['shortName'] # check if the stock is exists or not
+        if short_name is None:
+            raise KeyError
+
+        hist = stock.history(start=start_date, end=end_date) # if exists, fetch its data
+
+    except (KeyError, ValueError):
+        logging.error("Stock `{}` not found, possibly wrong input or the stock is delisted.".format(stock_symbol))
         raise ValueError("Stock `{}` not found, possibly wrong input or the stock is delisted.".format(stock_symbol))
 
     return hist, short_name
@@ -133,7 +152,8 @@ def preprocess_data(stock_data: pd.DataFrame):
     :return: X_value, y_value, y_scaler
     """
     # clone a new object
-    raw_data = copy.deepcopy(stock_data)
+    # raw_data = copy.deepcopy(stock_data)
+    raw_data = stock_data
 
     # data denoise
     tmp_close_price = raw_data["Close"]
@@ -185,7 +205,8 @@ def preprocess_data(stock_data: pd.DataFrame):
 
     # Feature Normalization
     # split as x and y values
-    d_norm_X = copy.deepcopy(raw_data)
+    # d_norm_X = copy.deepcopy(raw_data)
+    d_norm_X = raw_data
     # d_norm_X['Date'] = pd.to_datetime(d_norm_X['Date'])
     # d_norm_X = d_norm_X.set_index('Date')
 
@@ -211,13 +232,16 @@ def preprocess_data(stock_data: pd.DataFrame):
     )
     # reduce the dimensionality of the extracted features
     tmp_pcaed = pca_instance.fit_transform(d_norm_X[:, 7:])
-    pca_X = np.c_[copy.deepcopy(d_norm_X[:, :7]), tmp_pcaed]
+    # pca_X = np.c_[copy.deepcopy(d_norm_X[:, :7]), tmp_pcaed]
+    pca_X = np.c_[d_norm_X[:, :7], tmp_pcaed]
 
     # Data Organization
     time_lag = 30  # days
-    to_organize_x = copy.deepcopy(pca_X)
+    # to_organize_x = copy.deepcopy(pca_X)
+    to_organize_x = pca_X
     # to_organize_x = copy.deepcopy(d_norm_x)
-    to_organize_y = copy.deepcopy(d_norm_y)
+    # to_organize_y = copy.deepcopy(d_norm_y)
+    to_organize_y = d_norm_y
 
     organized_X = []
     organized_y = []
@@ -235,6 +259,9 @@ def preprocess_data(stock_data: pd.DataFrame):
 
     X_value = organized_X
     y_value = organized_y
+
+    # print("memory size of X_value: " + str(X_value.nbytes))
+    # print("memory size of y_value: " + str(y_value.nbytes))
 
     return X_value, y_value, y_scaler
 
@@ -278,6 +305,7 @@ def wavelet_denoise(index_list, wavefunc='haar', lv=2, m=1, n=2, plot=False):
     coeffs = {}
     for i in range(len(coeff)):
         coeffs[i] = copy.deepcopy(coeff)
+        # coeffs[i] = coeff
         for j in range(len(coeff)):
             if j != i:
                 coeffs[i][j] = np.zeros_like(coeff[j])

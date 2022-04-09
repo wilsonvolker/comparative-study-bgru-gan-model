@@ -7,6 +7,5 @@ pydantic==1.9.0
 PyWavelets==1.2.0
 scikit_learn==1.0.2
 ta==0.8.0
-tensorflow==2.8.0
 uvicorn==0.16.0
 yfinance==0.1.64

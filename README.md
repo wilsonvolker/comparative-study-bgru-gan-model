@@ -15,11 +15,17 @@ In addition to the model training, an evaluation platform (web-app based) is als
 ```bash
 pip install -r /path/to/requirements.txt
 # or
-conda install --file requirements.txt
+conda install --file /path/to/requirements.txt
 ```
 
 ### To export newly added package to requirement.txt
-`pip3 freeze > requirements.txt`
+```console
+pip install pipreqs
+pipreqs /path/to/project --force
+```
+<b>** Remember to remove platform-based dependency, such as tensorflow-macos</b>
+<br/>
+<b>** Change `numpy==1.22.3` if its version is `< 1.20`<b>
 
 ### Other information
 1. The files that contain "htgc" keywords, or with ".sh" extension, is to submit training jobs to CityU's High Throughput GPU Cluster 

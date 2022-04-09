@@ -4,6 +4,16 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+<hr/>
+
+### Environment variables
+See `.env.example`
+
+### Run with docker
+It is packed together with the frontend. See `../README.md`
+
+<hr/>
+
 ## Getting Started
 
 Install the packages

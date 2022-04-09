@@ -129,7 +129,7 @@ export default function InputForm(props) {
                         </Row>
                         <Row className={"mb-3"}>
                             <Form.Group as={Col} controlId={"end_date"}>
-                                <Form.Label>Stock data end date</Form.Label>
+                                <Form.Label>Stock data end date <span className={"text-muted"}>(At least 30 trading days from the start date)</span></Form.Label>
                                 {/*TODO: use react select to choose stocks, allow custom input*/}
                                 <Flatpickr
                                     options={{

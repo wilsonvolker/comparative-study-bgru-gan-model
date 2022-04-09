@@ -3,6 +3,14 @@
 
 <hr/>
 
+### Environment variables
+See `.env.example`
+
+### Run with docker
+It is packed together with the frontend. See `../README.md`
+
+<hr/>
+
 <p align="center">
   <a href="https://fastapi.tiangolo.com"><img src="https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png" alt="FastAPI"></a>
 </p>
@@ -127,21 +135,22 @@ FastAPI stands on the shoulders of giants:
 <div class="termy">
 
 ```console
-$ pip install fastapi
+pip install -r /path/to/requirements.txt
 
 ---> 100%
 ```
+or
+```
 
-</div>
+conda install --file /path/to/requirements.txt
 
-You will also need an ASGI server, for production such as <a href="https://www.uvicorn.org" class="external-link" target="_blank">Uvicorn</a> or <a href="https://gitlab.com/pgjones/hypercorn" class="external-link" target="_blank">Hypercorn</a>.
+--->100%
+```
 
-<div class="termy">
-
-```console
-$ pip install "uvicorn[standard]"
-
----> 100%
+## Setup Environment variable
+Copy the env files from example, update the env values if needed
+```bash
+cp .env.example .env
 ```
 
 </div>

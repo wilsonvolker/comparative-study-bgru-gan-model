@@ -1,6 +1,6 @@
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {Card, Container} from "react-bootstrap";
+import {Card, Container, Button} from "react-bootstrap";
 import Link from "next/link"
 import ResultContent from "../components/ResultConent";
 import ReactLoading from 'react-loading'
@@ -18,7 +18,12 @@ export default function result() {
     // const [isLoading, setIsLoading] = useState(true);
     const [resultData, setResultData] = useState([]);
     const [stockList, setStockList] = useState([]);
+    const [showReloadBtn, setShowReloadBtn] = useState(false);
     const [errMsg, setErrMsg] = useState(undefined);
+
+    const onReloadBtnClick = function(e) {
+        router.reload();
+    }
 
     // listen if the router is ready
     useEffect(() => {
@@ -31,7 +36,8 @@ export default function result() {
     // listen if the apiQuery is ready
     useEffect(() => {
         if (typeof apiQuery !== "undefined" && !_.isEmpty(apiQuery)){
-            // TODO: fetch evaluation result from backend
+            // fetch evaluation result from backend
+            setShowReloadBtn(false)
             axios.get(
                 process.env.NEXT_PUBLIC_EVALUTE_URL,
                 {
@@ -51,6 +57,13 @@ console.log(tmpResultData)
             }).catch((err) => {
                 if (err.response?.data?.error){
                     setErrMsg(err.response.data.error)
+
+                    if (err.response?.status === 408){
+                        setShowReloadBtn(true);
+                    }else{
+                        setShowReloadBtn(false)
+                    }
+
                 }
                 else {
                     setErrMsg(`${err.message}, possibly evaluation parameter errors or server is not started.`)
@@ -118,7 +131,7 @@ console.log(tmpResultData)
 
                                         <hr className={"mt-4"}/>
 
-                                        {/*TODO: Add summary table*/}
+                                        {/*Add summary table*/}
                                         <h2 className={"mt-2 mb-4"}>Model Summary</h2>
                                         <MetricTable
                                             data={resultData}
@@ -134,6 +147,14 @@ console.log(tmpResultData)
                                         <p className={"text-danger"}>
                                             Error was reported from the server:<br/>
                                             {errMsg}
+                                            {showReloadBtn && (
+                                                <>
+                                                    <br/>
+                                                    <Button variant={"primary"} onClick={onReloadBtnClick} className={"mt-2"}>
+                                                        Reload
+                                                    </Button>
+                                                </>
+                                            )}
                                         </p>
                                     </div>
                                 )
