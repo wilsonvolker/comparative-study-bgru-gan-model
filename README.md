@@ -1,5 +1,12 @@
 # A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions
 ![Project Screenshot - A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions](diagrams/project%20screenshot.png)
+### Objectives
+This project will conduct a comparative study to evaluate the BGRU and GAN models on predicting the stock market trend in Hong Kong and the United States market. The following objectives will thus be established. 
+
+1. To evaluate and compare the models’ daily stock close price prediction accuracy of the respective market. 
+
+2. To evaluate whether the transfer learning can also be applied to the trained Hong Kong market models and United States market models by evaluating the respective prediction result of forecasting the opposites’ daily close price of the selected stocks. 
+
 ## Codes
 Run the codes in sequences: 
 <br>0. Stock filtering, 
