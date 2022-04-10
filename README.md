@@ -1,5 +1,10 @@
 # A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions
 ![Project Screenshot - A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions](diagrams/project%20screenshot.png)
+
+### Prerequisites
+1. Python 3.9.7
+2. Tensorflow 2.8.0
+
 ## Codes
 Run the codes in sequences: 
 <br>0. Stock filtering, 
