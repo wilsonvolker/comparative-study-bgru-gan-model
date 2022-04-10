@@ -1,18 +1,16 @@
 # A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions
 ![Project Screenshot - A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions](diagrams/project%20screenshot.png)
-<<<<<<< HEAD
 
-### Prerequisites
-1. Python 3.9.7
-2. Tensorflow 2.8.0
-=======
 ### Objectives
 This project will conduct a comparative study to evaluate the BGRU and GAN models on predicting the stock market trend in Hong Kong and the United States market. The following objectives will thus be established. 
 
 1. To evaluate and compare the models’ daily stock close price prediction accuracy of the respective market. 
 
 2. To evaluate whether the transfer learning can also be applied to the trained Hong Kong market models and United States market models by evaluating the respective prediction result of forecasting the opposites’ daily close price of the selected stocks. 
->>>>>>> main
+
+### Prerequisites
+1. Python 3.9.7
+2. Tensorflow 2.8.0
 
 ## Codes
 Run the codes in sequences: 
