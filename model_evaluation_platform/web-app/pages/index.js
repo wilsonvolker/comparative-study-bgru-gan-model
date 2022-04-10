@@ -29,6 +29,9 @@ export default function Home() {
 
     return (
         <>
+            <Head>
+                <title>Model Evaluation Platform - A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions</title>
+            </Head>
             <Container className={"d-flex flex-column min-vh-100 justify-content-center align-items-center"}>
                 <Card className={"mw-100 mw-lg-50 mx-auto hover-box"}>
                     <Card.Body>

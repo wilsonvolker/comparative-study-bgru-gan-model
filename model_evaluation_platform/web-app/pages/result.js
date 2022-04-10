@@ -7,6 +7,7 @@ import ReactLoading from 'react-loading'
 import axios from "axios";
 import {isAssetError} from "next/dist/client/route-loader";
 import MetricTable from "../components/MetricTable";
+import Head from "next/head";
 
 const _ = require('lodash')
 
@@ -87,6 +88,9 @@ console.log(tmpResultData)
 
     return (
         <>
+            <Head>
+                <title>Model Evaluation Platform - A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions</title>
+            </Head>
             <Container className={"d-flex flex-column min-vh-100 justify-content-center align-items-center"}>
                 <Card className={"w-100 mx-auto hover-box"}>
                     <Card.Body>
