@@ -5,9 +5,12 @@ Run the codes in sequences: 0. Stock filtering, 1. Data fetching, 2, 3, ... n
 ## - Model evaluation platform
 In addition to the model training, an evaluation platform (web-app based) is also developed. 
 
-[Front-end web-app (Next.js based)](https://github.com/wilsonvolker/comparative-study-bgru-gan-model/tree/main/model_evaluation_platform/web-app)
+[Front-end web-app (Next.js based)](model_evaluation_platform/web-app)
 <br/>
-[API (FastAPI based)](https://github.com/wilsonvolker/comparative-study-bgru-gan-model/tree/main/model_evaluation_platform/api)
+[API (FastAPI based)](model_evaluation_platform/api)
+
+![Model Evaluation Platform Frontend - Input Form](diagrams/Model%20Evaluation%20Platform%20Frontend%20-%20Input%20form.png)
+![Model Evaluation Platform Frontend - Result Page](diagrams/Model%20Evaluation%20Platform%20Frontend%20-%20Result%20page.png)
 
 <hr/>
 
@@ -17,7 +20,6 @@ pip install -r /path/to/requirements.txt
 # or
 conda install --file /path/to/requirements.txt
 ```
-
 ### To export newly added package to requirement.txt
 ```console
 pip install pipreqs
