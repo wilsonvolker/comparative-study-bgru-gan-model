@@ -1,6 +1,10 @@
 # A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions
+![Project Screenshot - A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions](diagrams/project%20screenshot.png)
 ## - Codes
-Run the codes in sequences: 0. Stock filtering, 1. Data fetching, 2, 3, ... n
+Run the codes in sequences: 
+<br>0. Stock filtering, 
+<br>1. Data fetching, 
+<br>2, 3, ... n
 
 ## - Model evaluation platform
 In addition to the model training, an evaluation platform (web-app based) is also developed. 
