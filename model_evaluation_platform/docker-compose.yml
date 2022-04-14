@@ -1,30 +1,28 @@
 version: '3.8'
 
 services:
-#  model_evaluation_platform_frontend:
-#    platform: linux/amd64
-#    command: yarn run start
-#    build:
-#      context: ./web-app
-#      dockerfile: Dockerfile
-#    ports:
-#      - "80:3000"
-#    environment:
-#      - NEXT_PUBLIC_SERVER_URL=host.docker.internal:8000
-#      - NEXT_PUBLIC_EVALUTE_URL=$NEXT_PUBLIC_SERVER_URL/evaluate
-#      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=$NEXT_PUBLIC_SERVER_URL/default_stocks
-#    depends_on:
-#      - model_evaluation_platform_api
+  model_evaluation_platform_frontend:
+    platform: linux/amd64
+    command: yarn run start
+    build:
+      context: ./web-app
+      dockerfile: Dockerfile
+    ports:
+      - "80:3000"
+    environment:
+      - NEXT_PUBLIC_SERVER_URL=host.docker.internal:8000
+      - NEXT_PUBLIC_EVALUTE_URL=$NEXT_PUBLIC_SERVER_URL/evaluate
+      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=$NEXT_PUBLIC_SERVER_URL/default_stocks
+    depends_on:
+      - model_evaluation_platform_api
   model_evaluation_platform_api:
     platform: linux/amd64
     build:
       context: ../
       dockerfile: ./model_evaluation_platform/api/Dockerfile
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --log-level debug
-#    volumes:
-#      - ./model_evaluation_platform_api/:/api/
     ports:
-      - "80:8000"
+      - "8000:8000"
     environment:
       - APP_NAME=Model Evaluation Platform API
       - APP_DESCRIPTION=The API of the Model Evaluation Platform for project A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions
