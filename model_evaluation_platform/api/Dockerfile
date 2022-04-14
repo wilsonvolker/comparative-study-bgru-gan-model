@@ -17,7 +17,7 @@ COPY ./model_evaluation_platform/api/* /api/
 COPY ./model/hk/* /api/model/hk/
 COPY ./model/us/* /api/model/us/
 COPY ./data/processed/stocks_for_evaluate/* /api/data/processed/stocks_for_evaluate/
-COPY ./scaler/* /api/scaler
+COPY ./scaler/* /api/scaler/
 
 # Install packages
 RUN apt-get update \
