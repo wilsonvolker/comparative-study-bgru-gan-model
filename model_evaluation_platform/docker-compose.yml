@@ -9,14 +9,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:3000"
-    networks:
-      - model_evaluation_platform_network
     environment:
-      - NEXT_PUBLIC_SERVER_URL=model_evaluation_platform_api:8000
+      - NEXT_PUBLIC_SERVER_URL=http://gan.cs.cityu.edu.hk
       - NEXT_PUBLIC_SERVER_PORT=8000
       - NEXT_PUBLIC_EVALUTE_URL=$NEXT_PUBLIC_SERVER_URL:$NEXT_PUBLIC_SERVER_PORT/evaluate
-#      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=host.docker.internal:8000/default_stocks
-      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=http://gan.cs.cityu.edu.hk:8000/default_stocks
+      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=$NEXT_PUBLIC_SERVER_URL:$NEXT_PUBLIC_SERVER_PORT:8000/default_stocks
+#      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=http://gan.cs.cityu.edu.hk:8000/default_stocks
     depends_on:
       - model_evaluation_platform_api
   model_evaluation_platform_api:
@@ -27,8 +25,6 @@ services:
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --log-level debug
     ports:
       - "8000:8000"
-    networks:
-      - model_evaluation_platform_network
     environment:
       - APP_NAME=Model Evaluation Platform API
       - APP_DESCRIPTION=The API of the Model Evaluation Platform for project A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions
@@ -40,7 +36,3 @@ services:
       - SCALER_PATH=${PATH_PREFIX}scaler
       - RAW_DATA_PATH=${PATH_PREFIX}data/raw
       - API_TIMEOUT_MINUTES=3
-
-networks:
-  model_evaluation_platform_network:
-    driver: bridge
