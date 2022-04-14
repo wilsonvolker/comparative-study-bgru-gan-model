@@ -10,9 +10,8 @@ services:
     ports:
       - "80:3000"
     environment:
-      - NEXT_PUBLIC_EVALUTE_URL=http://gan.cs.cityu.edu.hk:8000/evaluate
+      - NEXT_PUBLIC_EVALUATE_URL=http://gan.cs.cityu.edu.hk:8000/evaluate
       - NEXT_PUBLIC_DEFAULT_STOCKS_URL=http://gan.cs.cityu.edu.hk:8000/default_stocks
-#      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=http://gan.cs.cityu.edu.hk:8000/default_stocks
     depends_on:
       - model_evaluation_platform_api
   model_evaluation_platform_api:
@@ -33,4 +32,5 @@ services:
       - EVALUATION_STOCKS_PATH=${PATH_PREFIX}data/processed/stocks_for_evaluate
       - SCALER_PATH=${PATH_PREFIX}scaler
       - RAW_DATA_PATH=${PATH_PREFIX}data/raw
+      - FRONT_END_URL=http://gan.cs.cityu.edu.hk
       - API_TIMEOUT_MINUTES=3

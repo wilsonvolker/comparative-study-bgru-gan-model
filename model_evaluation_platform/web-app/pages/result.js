@@ -40,7 +40,7 @@ export default function result() {
             // fetch evaluation result from backend
             setShowReloadBtn(false)
             axios.get(
-                process.env.NEXT_PUBLIC_EVALUTE_URL,
+                process.env.NEXT_PUBLIC_EVALUATE_URL,
                 {
                     params: apiQuery
                 }
