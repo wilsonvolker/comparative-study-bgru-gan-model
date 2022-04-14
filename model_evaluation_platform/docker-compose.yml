@@ -10,10 +10,10 @@ services:
     ports:
       - "80:3000"
     environment:
-      - NEXT_PUBLIC_SERVER_URL=http://gan.cs.cityu.edu.hk
+      - NEXT_PUBLIC_SERVER_URL=http://gan.cs.cityu.edu.hk:8000
       - NEXT_PUBLIC_SERVER_PORT=8000
       - NEXT_PUBLIC_EVALUTE_URL=$NEXT_PUBLIC_SERVER_URL:$NEXT_PUBLIC_SERVER_PORT/evaluate
-      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=$NEXT_PUBLIC_SERVER_URL:$NEXT_PUBLIC_SERVER_PORT:8000/default_stocks
+      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=$NEXT_PUBLIC_SERVER_URL/default_stocks
 #      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=http://gan.cs.cityu.edu.hk:8000/default_stocks
     depends_on:
       - model_evaluation_platform_api
