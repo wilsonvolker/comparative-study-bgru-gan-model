@@ -14,7 +14,9 @@ services:
       - NEXT_PUBLIC_SERVER_PORT=8000
       - NEXT_PUBLIC_EVALUTE_URL=$NEXT_PUBLIC_SERVER_URL:$NEXT_PUBLIC_SERVER_PORT/evaluate
 #      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=host.docker.internal:8000/default_stocks
-      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=host.docker.internal
+      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=model_evaluation_platform_api:8000/
+    links:
+      - model_evaluation_platform_api
     depends_on:
       - model_evaluation_platform_api
   model_evaluation_platform_api:
