@@ -1,6 +1,6 @@
 # Define working env (python version & os)
-#FROM python:3.9.12-slim
-FROM tensorflow/tensorflow:2.8.0-gpu
+FROM python:3.9.12-slim
+#FROM tensorflow/tensorflow:2.8.0-gpu
 # https://hub.docker.com/r/tensorflow/tensorflow Might need nvidia-docker to run
 
 # Define working dir
