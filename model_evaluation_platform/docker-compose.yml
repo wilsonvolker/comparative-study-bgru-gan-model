@@ -24,7 +24,7 @@ services:
 #    volumes:
 #      - ./model_evaluation_platform_api/:/api/
     ports:
-      - "8000:8000"
+      - "80:8000"
     environment:
       - APP_NAME="Model Evaluation Platform API"
       - APP_DESCRIPTION="The API of the Model Evaluation Platform for project A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions"
