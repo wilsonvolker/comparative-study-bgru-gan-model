@@ -17,6 +17,7 @@ COPY ./model_evaluation_platform/api/* /api/
 COPY ./model/hk/* /api/model/hk/
 COPY ./model/us/* /api/model/us/
 COPY ./data/processed/stocks_for_evaluate/* /api/data/processed/stocks_for_evaluate/
+COPY ./data/raw/* /api/data/raw/
 COPY ./scaler/* /api/scaler/
 
 # Install packages

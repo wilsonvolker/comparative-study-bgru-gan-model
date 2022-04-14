@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     US_MODELS_CHECKPOINT_PATH: str
     EVALUATION_STOCKS_PATH: str
     SCALER_PATH: str
+    RAW_DATA_PATH: str
     API_TIMEOUT_MINUTES: int
 
     class Config:
