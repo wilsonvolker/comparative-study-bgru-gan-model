@@ -3,6 +3,8 @@ version: '3.8'
 services:
   model_evaluation_platform_frontend:
     platform: linux/amd64
+    extra_hosts:
+          - "host.docker.internal:host-gateway"
     command: yarn run dev
     build:
       context: ./web-app
