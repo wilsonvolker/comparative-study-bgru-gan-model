@@ -26,11 +26,12 @@ services:
     ports:
       - "80:8000"
     environment:
-      - APP_NAME="Model Evaluation Platform API"
-      - APP_DESCRIPTION="The API of the Model Evaluation Platform for project A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions"
-      - APP_VERSION="1.0.0"
-      - HK_MODELS_CHECKPOINT_PATH="/api/model/hk"
-      - US_MODELS_CHECKPOINT_PATH="/api/model/us"
-      - EVALUATION_STOCKS_PATH="/api/data/processed/stocks_for_evaluate"
-      - SCALER_PATH="/api/scaler"
+      - APP_NAME=Model Evaluation Platform API
+      - APP_DESCRIPTION=The API of the Model Evaluation Platform for project A Comparative Study of BGRU and GAN for Stock Market Forecasting in dual regions
+      - APP_VERSION=1.0.0
+      - PATH_PREFIX=/api/
+      - HK_MODELS_CHECKPOINT_PATH=${PATH_PREFIX}model/hk
+      - US_MODELS_CHECKPOINT_PATH=${PATH_PREFIX}model/us
+      - EVALUATION_STOCKS_PATH=${PATH_PREFIX}data/processed/stocks_for_evaluate
+      - SCALER_PATH=${PATH_PREFIX}scaler
       - API_TIMEOUT_MINUTES=3
