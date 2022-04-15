@@ -28,7 +28,7 @@ Ubuntu 18.04.6 LTS
 ```console
 git clone -b main https://github.com/wilsonvolker/comparative-study-bgru-gan-model.git
 ```
-2. Ensure you are inside the model_evaluation_platform directory
+2. Ensure you are inside the `model_evaluation_platform` directory
 ```console
 cd {path_to_project}/model_evaluation_platform
 ```
