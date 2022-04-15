@@ -38,7 +38,6 @@ export default function InputForm(props) {
 
     useEffect(() => {
         // fetch default stocks data from server
-        console.log("NEXT_PUBLIC_DEFAULT_STOCKS_URL: " + process.env.NEXT_PUBLIC_DEFAULT_STOCKS_URL)
         axios.get(process.env.NEXT_PUBLIC_DEFAULT_STOCKS_URL)
             .then(function (res) {
                 const {default_stocks} = res.data;
