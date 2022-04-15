@@ -7,6 +7,11 @@ In addition to the model training, an evaluation platform (web-app based) is als
 
 <hr/>
 
+## User Guide
+[Model evaluation platform - User Guide](USER_GUIDE.md)
+
+<hr/>
+
 ## Deployment Guide of the Model Evaluation Platform
 
 ### Suggested OS for this deployment guide
