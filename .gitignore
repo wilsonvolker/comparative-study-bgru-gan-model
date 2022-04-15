@@ -1,5 +1,5 @@
 # project ignores
-data/processed/
+data/processed/training_data
 model_hyperparam_search/
 model/*/gan_ckpts/
 **/node_modules

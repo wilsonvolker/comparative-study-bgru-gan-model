@@ -76,6 +76,10 @@ SCALER_PATH = settings.SCALER_PATH
 template_filename_test_x = "{}/{}_test_X.npy"
 template_filename_test_y = "{}/{}_test_y.npy"
 
+# Constituents list csv(s)
+HSI_Constituents_list_filtered_PATH = "{}/HSI Constituents list_filtered.csv".format(settings.RAW_DATA_PATH)
+SnP_500_Constituents_filtered_PATH = "{}/S&P 500 Constituents_filtered.csv".format(settings.RAW_DATA_PATH)
+Stocks_for_evaluation_PATH = "{}/Stocks for evaluation.csv".format(settings.RAW_DATA_PATH)
 
 # %%
 # Functions
@@ -335,13 +339,13 @@ def evaluate_model(stock_symbol: str, stock_short_name: str, X_value: np.array, 
     :return:
     """
     # load stock full names (Get the stocks' name from raw data)
-    stock_name_hk = pd.read_csv("../../data/raw/HSI Constituents list_filtered.csv")
+    stock_name_hk = pd.read_csv(HSI_Constituents_list_filtered_PATH)
     stock_name_hk = stock_name_hk[["Name", "Symbol"]]
 
-    stock_name_us = pd.read_csv("../../data/raw/S&P 500 Constituents_filtered.csv")
+    stock_name_us = pd.read_csv(SnP_500_Constituents_filtered_PATH)
     stock_name_us = stock_name_us[["Name", "Symbol"]]
 
-    stock_name_eva = pd.read_csv("../../data/raw/Stocks for evaluation.csv")
+    stock_name_eva = pd.read_csv(Stocks_for_evaluation_PATH)
     stock_name_eva = stock_name_eva[["Name", "Symbol"]]
 
     stock_names = pd.concat([stock_name_us, stock_name_hk, stock_name_eva], ignore_index=True)

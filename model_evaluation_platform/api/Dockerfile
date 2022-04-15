@@ -1,6 +1,6 @@
 # Define working env (python version & os)
-#FROM python:3.9.12-slim
-FROM tensorflow/tensorflow:2.8.0-gpu
+FROM python:3.9.12-slim
+#FROM tensorflow/tensorflow:2.8.0-gpu
 # https://hub.docker.com/r/tensorflow/tensorflow Might need nvidia-docker to run
 
 # Define working dir
@@ -17,7 +17,8 @@ COPY ./model_evaluation_platform/api/* /api/
 COPY ./model/hk/* /api/model/hk/
 COPY ./model/us/* /api/model/us/
 COPY ./data/processed/stocks_for_evaluate/* /api/data/processed/stocks_for_evaluate/
-COPY ./scaler/* /api/scaler
+COPY ./data/raw/* /api/data/raw/
+COPY ./scaler/* /api/scaler/
 
 # Install packages
 RUN apt-get update \

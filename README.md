@@ -24,6 +24,8 @@ In addition to the model training, an evaluation platform (web-app based) is als
 [Front-end web-app (Next.js based)](model_evaluation_platform/web-app)
 <br/>
 [API (FastAPI based)](model_evaluation_platform/api)
+<br/>
+[Model evaluation platform - Deployment guide](model_evaluation_platform/README.md#deployment-guide-of-the-model-evaluation-platform)
 
 ![Model Evaluation Platform Frontend - Input Form](diagrams/Model%20Evaluation%20Platform%20Frontend%20-%20Input%20form.png)
 ![Model Evaluation Platform Frontend - Result Page](diagrams/Model%20Evaluation%20Platform%20Frontend%20-%20Result%20page.png)
