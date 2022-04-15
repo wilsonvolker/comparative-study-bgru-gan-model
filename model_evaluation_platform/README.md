@@ -54,9 +54,9 @@ docker-compose up -d --build
 ```
 5. Visit your application here:
 <br/>
-<b>Frontend:</b> `http://{YOUR_SERVER_URL_HERE}/`
+<b>Frontend:</b> http://{YOUR_SERVER_URL_HERE}/
 <br/>
-<b>Backend:</b> `http://{YOUR_SERVER_URL_HERE}:8000/`
+<b>Backend:</b> http://{YOUR_SERVER_URL_HERE}:8000/
 
 <hr/>
 
