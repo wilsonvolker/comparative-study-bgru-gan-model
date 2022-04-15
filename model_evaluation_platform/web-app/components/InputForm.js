@@ -51,7 +51,7 @@ export default function InputForm(props) {
                 setStocksOption(processed_data)
             })
             .catch((err) => {
-                console.error(err.toJSON())
+                console.error(err)
             })
 
     }, [])
