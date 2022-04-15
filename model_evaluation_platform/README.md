@@ -26,7 +26,7 @@ Ubuntu 18.04.6 LTS
 ## Deploying Frontend + Backend
 1. Ensure the project is cloned from github <br/>
 ```console
-git clone -b master https://github.com/wilsonvolker/comparative-study-bgru-gan-model.git
+git clone -b main https://github.com/wilsonvolker/comparative-study-bgru-gan-model.git
 ```
 2. Ensure you are inside the model_evaluation_platform directory
 ```console
