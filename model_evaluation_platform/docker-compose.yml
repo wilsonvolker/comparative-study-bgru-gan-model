@@ -7,11 +7,11 @@ services:
     build:
       context: ./web-app
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_EVALUATE_URL=http://gan.cs.cityu.edu.hk:8000/evaluate
+        - NEXT_PUBLIC_DEFAULT_STOCKS_URL=http://gan.cs.cityu.edu.hk:8000/default_stocks
     ports:
       - "80:3000"
-    environment:
-      - NEXT_PUBLIC_EVALUATE_URL=http://gan.cs.cityu.edu.hk:8000/evaluate
-      - NEXT_PUBLIC_DEFAULT_STOCKS_URL=http://gan.cs.cityu.edu.hk:8000/default_stocks
     depends_on:
       - model_evaluation_platform_api
   model_evaluation_platform_api:
