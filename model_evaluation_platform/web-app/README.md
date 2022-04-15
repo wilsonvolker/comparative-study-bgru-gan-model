@@ -10,7 +10,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 See `.env.example`
 
 ### Run with docker
-It is packed together with the frontend. See `../README.md`
+It is packed together with the backend. See `../README.md`
 
 <hr/>
 
