@@ -27,6 +27,9 @@ RUN npx next telemetry disable
 
 COPY . .
 
+ENV NEXT_PUBLIC_EVALUATE_URL=.../evaluate
+ENV NEXT_PUBLIC_DEFAULT_STOCKS_URL=.../default_stocks
+
 RUN yarn run build
 
 CMD [ "yarn", "start" ]
