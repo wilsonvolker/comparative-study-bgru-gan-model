@@ -4,6 +4,7 @@ services:
   model_evaluation_platform_frontend:
     platform: linux/amd64
     command: yarn run start
+    restart: always
     build:
       context: ./web-app
       dockerfile: Dockerfile
@@ -20,6 +21,7 @@ services:
       context: ../
       dockerfile: ./model_evaluation_platform/api/Dockerfile
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --log-level debug
+    restart: always
     ports:
       - "8000:8000"
     environment:
