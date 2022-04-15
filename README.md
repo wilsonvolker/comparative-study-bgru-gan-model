@@ -35,7 +35,7 @@ In addition to the model training, an evaluation platform (web-app based) is als
 <hr/>
 
 ### To install packages
-```bash
+```console
 pip install -r /path/to/requirements.txt
 # or
 conda install --file /path/to/requirements.txt
